@@ -36,3 +36,7 @@ Ordering uses distance to the reference interval, then narrower interval width. 
 ## Publication
 
 Local prototype only. Public deployment and external data uploads require owner approval and a completed source-license review.
+
+## Atmospheric CO2 screening
+
+Two additional manufacturer-guidance entries cover approximate CO2 positions near 2350 and 670 cm⁻¹, sourced from https://www.shimadzu.com/an/service-support/faq/ftir/4/index.html (reviewed 2026-10-09). The application uses an explicitly labeled ±25 cm⁻¹ screening window around each position; this is a heuristic, not a published band width. These are possible background-interference candidates and do not confirm CO2 in the sample. No manufacturer spectrum or image is redistributed. The OpenStax dataset license applies to its adapted entries, not to manufacturer material.

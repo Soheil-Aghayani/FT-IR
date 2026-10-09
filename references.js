@@ -15,3 +15,8 @@ export const bands = [
  ['acid-oh','Carboxylic acid','O–H',2500,3100,'Strong, broad'],
  ['nitrile','Nitrile','C≡N',2210,2260,'Medium']
 ].map(([id,group,bond,min,max,intensity])=>({id,group,bond,min,max,intensity,source,evidence:'Textbook reference range'}));
+
+// The manufacturer reports approximate positions, not a band interval.
+// ±25 cm⁻¹ is an application screening window, not a published width.
+const atmosphereSource = {author:'Shimadzu Corporation',title:'FTIR FAQ 4: Atmospheric water vapor and carbon dioxide',publisher:'Shimadzu',year:'n.d.',url:'https://www.shimadzu.com/an/service-support/faq/ftir/4/index.html',license:'Linked manufacturer guidance; no spectrum or image redistributed',reviewed:'2026-10-09'};
+for(const [id,center] of [['co2-atmosphere-stretch',2350],['co2-atmosphere-bend',670]]) bands.push({id,group:'Carbon dioxide (CO₂) · possible background interference',bond:'CO₂ absorption',min:center-25,max:center+25,center,intensity:'Not specified by source',source:atmosphereSource,evidence:'Manufacturer guidance: approximate position',rangeKind:'Application screening window',note:`Source reports absorption near ${center} cm⁻¹. The ±25 cm⁻¹ screening window is an application heuristic, not a source-reported band width. Atmospheric CO₂ or a background mismatch is possible; this peak alone does not establish CO₂ in the sample. Check the background spectrum, repeat with a fresh background or purge, and inspect the companion CO₂ region near ${center===2350?670:2350} cm⁻¹.`});
