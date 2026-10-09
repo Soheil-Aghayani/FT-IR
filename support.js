@@ -1,0 +1,16 @@
+const evmAddress='0x45ECCb5357132A077eE3a717fA7D5D2F30C1E2A9';
+const wallets=[
+ {token:'BTCB',name:'Binance-Peg Bitcoin',network:'BNB Smart Chain (BSC)',minimum:'0.00001 BTCB',icon:'btc',address:evmAddress},
+ {token:'ETH',name:'Ethereum',network:'Ethereum mainnet',minimum:'0.0001 ETH',icon:'eth',address:evmAddress},
+ {token:'USDT',name:'Tether USD',network:'BNB Smart Chain (BSC)',minimum:'0.1 USDT',icon:'usdt',address:evmAddress},
+ {token:'SOL',name:'Solana',network:'Solana mainnet',minimum:'0.01 SOL',icon:'sol',address:'3iri7UenMDp4g8f3V1shoVEcFMYLoL8vehdxLr886jLN'}
+];
+const make=(tag,text,className)=>{const node=document.createElement(tag);if(text)node.textContent=text;if(className)node.className=className;return node;};
+const icon=name=>{const image=make('img');image.src=`assets/icons/${name}.svg`;image.alt='';image.width=24;image.height=24;return image;};
+const section=make('section',null,'support');section.id='support';section.setAttribute('aria-labelledby','support-title');
+const intro=make('div',null,'support-intro'),title=make('h2','Support me');title.id='support-title';intro.append(icon('heart-linear'),make('p','SUPPORT THE PROJECT','eyebrow'),title,make('p','If this workspace helps your research, you can support its continued development. Thank you.','muted'));section.append(intro);
+const list=make('div',null,'support-wallets'),status=make('p',null,'muted');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+for(const wallet of wallets){const card=make('article',null,'support-wallet'),heading=make('div',null,'wallet-heading'),text=make('div');text.append(make('h3',wallet.token),make('p',wallet.name,'muted'));heading.append(icon(wallet.icon),text);card.append(heading,make('p',wallet.network,'wallet-network'),make('p',`Minimum: ${wallet.minimum}`,'muted'));const address=make('code',wallet.address,'wallet-address');const button=make('button',null,'wallet-copy'),buttonIcon=icon('copy-linear'),label=make('span','Copy address');button.append(buttonIcon,label);button.setAttribute('aria-label',`Copy ${wallet.token} address on ${wallet.network}`);button.onclick=async()=>{try{await navigator.clipboard.writeText(wallet.address);buttonIcon.src='assets/icons/check-circle-linear.svg';label.textContent='Copied';status.textContent=`${wallet.token} address copied. Use ${wallet.network}.`;setTimeout(()=>{buttonIcon.src='assets/icons/copy-linear.svg';label.textContent='Copy address';},2500);}catch{status.textContent='Copy is unavailable. Select and copy the address shown above.';}};card.append(address,button);list.append(card);}
+section.append(list,make('p','Send only the listed token on the listed network. BTCB on BSC is not native Bitcoin. Check the receiving address and network in your wallet before sending; network fees are separate.','support-note'),status);document.querySelector('main').append(section);
+const navLink=make('a','Support me');navLink.href='#support';document.querySelector('nav').append(navLink);
+const credit=make('a','Solar icons by 480 Design · CC BY 4.0');credit.href='https://www.figma.com/community/file/1166831539721848736';credit.target='_blank';credit.rel='noreferrer';document.querySelector('footer').append(credit);
