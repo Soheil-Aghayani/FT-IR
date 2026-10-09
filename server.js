@@ -2,7 +2,7 @@ import http from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 const root = new URL('./', import.meta.url);
-const files = new Set(['index.html','styles.css','app.js','science.js','references.js']);
+const files = new Set(['index.html','styles.css','app.js','science.js','references.js','report.js']);
 http.createServer(async (req,res)=>{
   const name = new URL(req.url,'http://localhost').pathname.slice(1) || 'index.html';
   if(!files.has(name)){res.writeHead(404);res.end('Not found');return;}

@@ -1,5 +1,11 @@
 # FT-IR research workspace
 
+## Expanded analysis
+
+The reference set now contains 26 entries: published ranges, nominal textbook positions and explicitly labeled atmospheric screening windows. Additional organic assignments cite OpenStax §12.8 with the same attribution and noncommercial share-alike requirements. Nominal positions are matched using user tolerance, without manufacturing band widths.
+
+Detect peaks or add individual reviewed positions manually. The analysis table shows all competing assignments and retains unmatched peaks. Remove false candidates from the review without changing raw measurements. Export CSV for a source-linked assignment table or JSON for the full report, including file label, intensity type, actual detection settings, source details, reference version and limitations. Exports are local downloads; they do not include the raw spectrum. Re-running detection replaces the reviewed candidate list. No settings or files persist across reloads.
+
 English-only, browser-local wavenumber search and CSV exploration. Apple Human Interface Guidelines inspire the restrained layout, system typography, spacing, clear hierarchy, keyboard focus and responsive controls. This is an independent web app, not an Apple product or official implementation of an Apple design system.
 
 ## Run
