@@ -1,4 +1,4 @@
-import {bands} from './references.js?v=3';
+import {bands} from './references.js?v=6';
 export function parseQuery(text){
  const m=text.trim().match(/^(\d+(?:\.\d+)?)\s*(?:[-–]\s*(\d+(?:\.\d+)?))?$/);
  if(!m)throw Error('Enter a wavenumber or range, for example 1715 or 1650–1750.');
@@ -32,14 +32,14 @@ export function detectPeaks(points,type,threshold=5,separation=20,smooth=false){
  const sign=type==='transmittance'?-1:1, v=values.map(y=>sign*y),span=Math.max(...values)-Math.min(...values);
  if(!span)return [];
  const candidates=[];
- for(let i=1;i<v.length-1;i++)if(v[i]>v[i-1]&&v[i]>=v[i+1]){
-  // Local contrast within ±50 cm⁻¹; deliberately not called true prominence.
-  let left=i-1,right=i+1;
-  while(left>0&&points[i].x-points[left-1].x<=50)left--;
-  while(right<v.length-1&&points[right+1].x-points[i].x<=50)right++;
-  const contrast=Math.min(v[i]-Math.min(...v.slice(left,i)),v[i]-Math.min(...v.slice(i+1,right+1)))/span*100;
-  if(contrast>=threshold)candidates.push({...points[i],contrast});
- }
+ // Prominence uses the contour on each side up to a higher peak or boundary.
+ // A range-minimum tree and monotonic stacks keep broad-band scans efficient.
+ const n=v.length,leftHigher=new Int32Array(n),rightHigher=new Int32Array(n),stack=[];
+ for(let i=0;i<n;i++){while(stack.length&&v[stack.at(-1)]<=v[i])stack.pop();leftHigher[i]=stack.length?stack.at(-1):0;stack.push(i);}stack.length=0;
+ for(let i=n-1;i>=0;i--){while(stack.length&&v[stack.at(-1)]<=v[i])stack.pop();rightHigher[i]=stack.length?stack.at(-1):n-1;stack.push(i);}
+ let size=1;while(size<n)size*=2;const tree=new Float64Array(size*2);tree.fill(Infinity);for(let i=0;i<n;i++)tree[size+i]=v[i];for(let i=size-1;i>0;i--)tree[i]=Math.min(tree[i*2],tree[i*2+1]);
+ const minimum=(l,r)=>{let result=Infinity;l+=size;r+=size;while(l<=r){if(l%2)result=Math.min(result,tree[l++]);if(!(r%2))result=Math.min(result,tree[r--]);l=Math.floor(l/2);r=Math.floor(r/2);}return result;};
+ for(let i=1;i<n-1;i++)if(v[i]>v[i-1]){let end=i;while(end<n-1&&v[end+1]===v[i])end++;if(end<n-1&&v[end]>v[end+1]){const center=Math.floor((i+end)/2),prominence=v[i]-Math.max(minimum(leftHigher[i],i),minimum(end,rightHigher[end])),contrast=prominence/span*100;if(contrast>=threshold)candidates.push({...points[center],contrast,prominence});}i=end;}
  const selected=[];
  for(const p of candidates.sort((a,b)=>b.contrast-a.contrast))if(selected.every(q=>Math.abs(q.x-p.x)>=separation))selected.push(p);
  return selected.sort((a,b)=>b.x-a.x);

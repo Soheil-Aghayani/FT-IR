@@ -56,3 +56,7 @@ Smoothing supports 1/5/11/21 sample moving averages. Optional endpoint baseline 
 ## Excel import and dialogs
 
 Spectrum and reference imports accept .xlsx with worksheet and column selection, a preview, and a 5 MB / 50,000-sample limit. SheetJS CE 0.20.3 is vendored from the official CDN under its bundled Apache 2.0 license. Processing stays in the browser. Encrypted workbooks are unsupported; formulas use stored results rather than recalculation. Custom file controls replace native picker chrome. Support wallets are now in a native modal dialog with focus containment, Escape dismissal and a Solar X close control.
+
+## Broad-band detection correction
+
+Peak detection now uses contour prominence: each side extends to a higher peak or the boundary, with range-minimum queries and monotonic stacks. Prominence is scaled to the full intensity span. This replaces the narrow ±50 cm⁻¹ local-contrast heuristic that missed broad troughs. Plateau peaks use their midpoint. Boundary-truncated bands remain unreliable and positional assignments remain provisional. Support is opened only by clicking its button, even when loading an old #support link, and shows one currency at a time.

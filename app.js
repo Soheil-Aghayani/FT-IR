@@ -1,8 +1,8 @@
-import {readSpectrumFile,styleFileInput} from './import.js?v=5';
-import {parseQuery,matchBands,parseCSV,detectPeaks} from './science.js?v=3';
-import {buildReport,reportCSV} from './report.js?v=3';
-import {preprocess,compareSpectra} from './processing.js?v=3';
-import {patterns} from './references.js?v=3';
+import {readSpectrumFile,styleFileInput} from './import.js?v=6';
+import {parseQuery,matchBands,parseCSV,detectPeaks} from './science.js?v=6';
+import {buildReport,reportCSV} from './report.js?v=6';
+import {preprocess,compareSpectra} from './processing.js?v=6';
+import {patterns} from './references.js?v=6';
 const $=id=>document.getElementById(id);
 let spectrum=null,query=parseQuery('1715'),peaks=[];
 let processed=null,comparison=null,referencePoints=null;
@@ -40,8 +40,8 @@ function search(){
 }
 function analyze(){
  if(!spectrum)return;comparison=null;referencePoints=null;
- detectionSettings={contrast:Number($('contrast').value),separation:Number($('separation').value),smooth:$('smooth').checked};
- try{const threshold=Number($('contrast').value),separation=Number($('separation').value);if(!$('contrast').value||threshold<0.1||threshold>100||!$('separation').value||separation<1||separation>500)throw Error('Use contrast 0.1–100% and separation 1–500 cm⁻¹.');
+ detectionSettings={contrast:Number($('contrast').value),separation:Number($('separation').value),smooth:$('smooth').checked,method:'contour-prominence'};
+ try{const threshold=Number($('contrast').value),separation=Number($('separation').value);if(!$('contrast').value||threshold<0.1||threshold>100||!$('separation').value||separation<1||separation>500)throw Error('Use prominence 0.1–100% and separation 1–500 cm⁻¹.');
  processed=preprocess(spectrum.points,$('type').value,{window:Number($('window').value),baseline:$('baseline').checked});detectionSettings={...detectionSettings,window:Number($('window').value),baseline:$('baseline').checked};peaks=detectPeaks(processed,$('type').value,threshold,separation,$('smooth').checked).map(p=>({...p,y:spectrum.points.find(q=>q.x===p.x).y}));status(`${peaks.length} candidate peaks. Raw trace: blue; processed trace: orange. ${spectrum.warnings.join(' ')} Review candidates before interpreting.`);search();
  }catch(e){peaks=[];$('peaks').replaceChildren();search();status(e.message);}
 }
