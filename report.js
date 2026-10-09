@@ -1,4 +1,4 @@
-import {matchBands} from './science.js';
+import {matchBands} from './science.js?v=3';
 export function buildReport(peaks,tolerance,metadata){
  return {version:1,createdAt:new Date().toISOString(),metadata,tolerance,limitation:'Candidate assignments only; not compound identification. Unmatched peaks indicate limited reference coverage.',peaks:peaks.map(p=>({...p,assignments:matchBands({min:p.x,max:p.x},tolerance)}))};
 }

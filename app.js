@@ -1,7 +1,7 @@
-import {parseQuery,matchBands,parseCSV,detectPeaks} from './science.js';
-import {buildReport,reportCSV} from './report.js';
-import {preprocess,compareSpectra} from './processing.js';
-import {patterns} from './references.js';
+import {parseQuery,matchBands,parseCSV,detectPeaks} from './science.js?v=3';
+import {buildReport,reportCSV} from './report.js?v=3';
+import {preprocess,compareSpectra} from './processing.js?v=3';
+import {patterns} from './references.js?v=3';
 const $=id=>document.getElementById(id);
 let spectrum=null,query=parseQuery('1715'),peaks=[];
 let processed=null,comparison=null,referencePoints=null;
