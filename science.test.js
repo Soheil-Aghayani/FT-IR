@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {parseQuery,matchBands,parseCSV,detectPeaks} from './science.js';
+test('range overlap retains competing assignments and nearby matches',()=>{const matches=matchBands(parseQuery('1675'),10);assert(matches.some(b=>b.id==='carbonyl'&&b.distance===0));assert(matches.some(b=>b.id==='alkene-cc'&&b.distance===0));assert.throws(()=>parseQuery('1750–1650'));assert.throws(()=>parseQuery('NaN'));assert.throws(()=>matchBands({min:1715,max:1715},-1));});
+test('CSV handles headers, reversed order and refuses duplicates',()=>{const data=parseCSV('wave,intensity\n408,2\n406,3\n404,5\n402,3\n400,2');assert.equal(data.points[0].x,400);assert.equal(data.warnings.length,1);assert.throws(()=>parseCSV('400,1\n400,2\n402,3\n403,4\n404,5'));});
+test('peak direction depends on absorbance or transmittance',()=>{const points=[0,1,4,1,0].map((y,i)=>({x:400+i*10,y}));assert.equal(detectPeaks(points,'absorbance').length,1);assert.equal(detectPeaks(points,'transmittance').length,0);assert.equal(detectPeaks(points.map(p=>({...p,y:100-p.y})),'transmittance')[0].x,420);assert.equal(detectPeaks(points.map(p=>({...p,y:2})),'absorbance').length,0);assert.throws(()=>detectPeaks(points.map(p=>({...p,y:101})),'transmittance'));});
