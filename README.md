@@ -46,3 +46,9 @@ Local prototype only. Public deployment and external data uploads require owner 
 ## Atmospheric CO2 screening
 
 Two additional manufacturer-guidance entries cover approximate CO2 positions near 2350 and 670 cm⁻¹, sourced from https://www.shimadzu.com/an/service-support/faq/ftir/4/index.html (reviewed 2026-10-09). The application uses an explicitly labeled ±25 cm⁻¹ screening window around each position; this is a heuristic, not a published band width. These are possible background-interference candidates and do not confirm CO2 in the sample. No manufacturer spectrum or image is redistributed. The OpenStax dataset license applies to its adapted entries, not to manufacturer material.
+
+## Processing and comparison release
+
+31 sourced entries now include calcite/carbonate and g-C3N4 sample-specific facts with article/figure links. Supporting-band checks count represented reference regions and are not confidence estimates. Local reference CSV comparison interpolates across overlapping wavenumbers and reports centered shape correlation; its purple dashed overlay is independently scaled. Same intensity type is required; uneven sampling and baseline differences affect results. No RRUFF spectra are redistributed.
+
+Smoothing supports 1/5/11/21 sample moving averages. Optional endpoint baseline subtraction is limited to absorbance and may distort broad bands. The blue raw trace is preserved beside the orange processed trace. Export chart SVG; save and restore local JSON sessions containing raw spectra and reviewed peaks. Session files are private local downloads; share only deliberately. Restoration displays raw data; rerun detection to reconstruct processing. Baseline processing is a heuristic, not validated fitting. The site now includes an original vector spectrum favicon.
