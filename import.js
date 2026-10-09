@@ -1,4 +1,4 @@
-import {parseCSV} from './science.js?v=6';
+import {parseCSV} from './science.js?v=7';
 export function worksheetSpectrum(rows,xColumn,yColumn){
  if(xColumn===yColumn)throw Error('Choose different columns for wavenumber and intensity.');
  return parseCSV(rows.map(row=>[row[xColumn],row[yColumn]].map(v=>typeof v==='number'||typeof v==='string'?String(v):'').join(',')).join('\n'));
