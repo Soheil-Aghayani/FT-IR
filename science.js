@@ -1,4 +1,4 @@
-import {bands} from './references.js?v=7';
+import {bands} from './references.js?v=8';
 export function parseQuery(text){
  const m=text.trim().match(/^(\d+(?:\.\d+)?)\s*(?:[-–]\s*(\d+(?:\.\d+)?))?$/);
  if(!m)throw Error('Enter a wavenumber or range, for example 1715 or 1650–1750.');

@@ -1,5 +1,5 @@
-import {matchBands} from './science.js?v=7';
-import {patterns} from './references.js?v=7';
+import {matchBands} from './science.js?v=8';
+import {patterns} from './references.js?v=8';
 export function supportingChecks(peaks,tolerance){return patterns.map(pattern=>({...pattern,represented:pattern.ids.filter(id=>peaks.some(p=>matchBands({min:p.x,max:p.x},tolerance).some(b=>b.id===id)))})).filter(p=>p.represented.length);}
 export function buildReport(peaks,tolerance,metadata){
  return {version:2,createdAt:new Date().toISOString(),metadata,tolerance,supportingChecks:supportingChecks(peaks,tolerance),limitation:'Candidate assignments only; not compound identification. Unmatched peaks indicate limited reference coverage. Supporting-band counts describe positional coverage, not confidence.',peaks:peaks.map(p=>({...p,assignments:matchBands({min:p.x,max:p.x},tolerance)}))};
